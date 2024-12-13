@@ -1,0 +1,23 @@
+# Use an official OpenJDK 8 as a parent image
+FROM openjdk:8-jdk-alpine
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Build the application with Maven (you can replace this with your build tool and build command)
+RUN ./mvnw package
+
+# Set the JAR file path
+ARG JAR_FILE=target/*.jar
+
+# Copy the JAR file from the build context to the container at /app/app.jar
+COPY ${JAR_FILE} app.jar
+
+# Expose port 8080 for the application
+EXPOSE 8080
+
+# Define the command to run your application
+CMD ["java", "-jar", "app.jar"]
